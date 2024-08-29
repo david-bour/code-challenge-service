@@ -32,6 +32,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: david-bour/code-challenge-service-config
-          ref: refs/head/main
+          ref: ref/heads/main
 
       - run: ls -lsah
