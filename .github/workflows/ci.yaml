@@ -35,4 +35,17 @@ jobs:
           ref: refs/heads/main
           token: ${{ secrets.GH_API_KEY }}
 
-      - run: ls -lsah
+      - name: yq - portable yaml processor
+        uses: mikefarah/yq@v4.44.3
+        with:
+          cmd: yq -i '.version = "${{ github.sha }}"' environment/dev/minikube/versions.yaml
+ 
+      - name: Update version configuration
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email "<>"
+          git add .
+          git commit -m "Update version to ${{ github.sha }}"
+          git push origin main
+        
+      
