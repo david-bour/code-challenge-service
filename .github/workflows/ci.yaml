@@ -33,5 +33,6 @@ jobs:
         with:
           repository: david-bour/code-challenge-service-config
           ref: ref/heads/main
+          token: ${{ secrets.GH_API_KEY }}
 
       - run: ls -lsah
