@@ -28,6 +28,15 @@ jobs:
             davidbour/ccs:${{ github.ref_name }}-${{ github.run_number }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  
+      - uses: Azure/setup-helm@v4.2.0
+
+      - name: Package and Publish Helm Chart
+        run: |
+          helm package ./code-challenge-service --version=${{ github.sha }} && \
+          helm registry login registry-1.docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} && \
+          helm push code-challenge-service-${{ github.sha}}.tgz oci://registry-1.docker.io/docker
+        working-directory: chart
 
       - uses: actions/checkout@v4
         with:
@@ -47,5 +56,3 @@ jobs:
           git add .
           git commit -m "Update version to ${{ github.sha }}"
           git push origin main
-        
-      
