@@ -31,11 +31,17 @@ jobs:
   
       - uses: Azure/setup-helm@v4.2.0
 
+      - name: Get Helm Version
+        id: helm-version
+        uses: mikefarah/yq@v4.44.3
+        with:
+          cmd: yq '.version' ./chart/code-challenge-service/values.yaml
+
       - name: Package and Publish Helm Chart
         run: |
-          helm package ./code-challenge-service --version=${{ github.sha }} && \
+          helm package ./code-challenge-service --version=${{ steps.helm-version.outputs.result}}-${{ github.sha }} && \
           helm registry login registry-1.docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} && \
-          helm push code-challenge-service-${{ github.sha}}.tgz oci://registry-1.docker.io/docker
+          helm push code-challenge-service-${{ steps.helm-version.outputs.result}}-${{ github.sha}}.tgz oci://registry-1.docker.io/docker
         working-directory: chart
 
       - uses: actions/checkout@v4
