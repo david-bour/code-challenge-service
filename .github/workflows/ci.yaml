@@ -41,7 +41,7 @@ jobs:
         run: |
           helm package ./code-challenge-service --version=${{ steps.helm-version.outputs.result}}-${{ github.sha }} && \
           helm registry login registry-1.docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} && \
-          helm push code-challenge-service-${{ steps.helm-version.outputs.result}}-${{ github.sha}}.tgz oci://registry-1.docker.io/docker
+          helm push code-challenge-service-${{ steps.helm-version.outputs.result}}-${{ github.sha}}.tgz oci://registry-1.docker.io/davidbour
         working-directory: chart
 
       - uses: actions/checkout@v4
