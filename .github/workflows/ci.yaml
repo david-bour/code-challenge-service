@@ -25,11 +25,13 @@ jobs:
           tags: |
             davidbour/ccs:latest,
             davidbour/ccs:${{ github.sha }},
-            davidbour/css:${{ github.ref_name }}-${{ github.run_number }}
+            davidbour/ccs:${{ github.ref_name }}-${{ github.run_number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - uses: actions/checkout@v4
         with:
-          repository: davidbour/code-challenge-service-config
+          repository: david-bour/code-challenge-service-config
           ref: refs/head/main
 
       - run: ls -lsah
