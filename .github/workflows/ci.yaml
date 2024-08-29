@@ -26,3 +26,10 @@ jobs:
             davidbour/ccs:latest,
             davidbour/ccs:${{ github.sha }},
             davidbour/css:${{ github.ref_name }}-${{ github.run_number }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: davidbour/code-challenge-service-config
+          ref: refs/head/main
+
+      - run: ls -lsah
